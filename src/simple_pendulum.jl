@@ -9,13 +9,13 @@ function get_default_initial_conditions(::SimplePendulum{T}) where {T}
     return T[π / 4, 0.0]
 end
 
-function rhs(u::AbstractVector{T}, system::SimplePendulum{T}, t) where {T}
+function rhs(u::AbstractVector{T}, system::SimplePendulum, t) where {T}
     θ, ω = u
     (; m, l) = system
     return [ω, -g(T) / l * sin(θ)]
 end
 
-function jacobian_rhs(system::SimplePendulum, u::AbstractVector{T}) where {T}
+function jacobian_rhs(u::AbstractVector{T}, system::SimplePendulum{T}, t) where {T}
     return ForwardDiff.jacobian(u -> rhs(u, system, nothing), u)
 end
 
