@@ -1,5 +1,7 @@
 module ConservativeDynamicalSystems
 
-# Write your package code here.
+abstract type AbstractDynamicalSystem{T<:AbstractFloat} end
+
+include("constants.jl")
 
 end
