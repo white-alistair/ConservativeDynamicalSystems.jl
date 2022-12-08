@@ -10,7 +10,7 @@ function get_default_initial_conditions(::QuadrupoleBosonHamiltonian{T}) where {
     return T[0.0, -2.5830294658973876, 1.3873470962626937, -4.743416490252585]
 end
 
-function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
+function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian, t) where {T}
     q₀, q₂, p₀, p₂ = u
     (; A, B, D) = system
     
@@ -20,6 +20,10 @@ function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) whe
         -1 * A * q₀ - 3 * B / sqrt(2) * (q₂^2 - q₀^2) - D * q₀ * (q₀^2 + q₂^2),
         -1 * q₂ * (A + 3 * B / sqrt(2) * q₀ + D * (q₀^2 + q₂^2)),
     ]
+end
+
+function jacobian_rhs(system::QuadrupoleBosonHamiltonian{T}, u::AbstractVector{T}) where {T}
+    return ForwardDiff.jacobian(u -> rhs(u, system, nothing), u)
 end
 
 function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}

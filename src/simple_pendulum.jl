@@ -15,6 +15,10 @@ function rhs(u::AbstractVector{T}, system::SimplePendulum{T}, t) where {T}
     return [ω, -g(T) / l * sin(θ)]
 end
 
+function jacobian_rhs(system::SimplePendulum, u::AbstractVector{T}) where {T}
+    return ForwardDiff.jacobian(u -> rhs(u, system, nothing), u)
+end
+
 function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::SimplePendulum{T}, t) where {T}
     θ, ω = u
     (; m, l) = system
