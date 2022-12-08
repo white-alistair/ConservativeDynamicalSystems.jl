@@ -1,5 +1,7 @@
 module ConservativeDynamicalSystems
 
+export SimplePendulum, DoublePendulum, QuadrupoleBosonHamiltonian, rhs, rhs!, hamiltonian, jacobian
+
 abstract type AbstractDynamicalSystem{T<:AbstractFloat} end
 
 include("constants.jl")
