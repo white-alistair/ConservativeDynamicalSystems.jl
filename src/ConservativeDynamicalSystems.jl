@@ -3,6 +3,7 @@ module ConservativeDynamicalSystems
 export SimplePendulum,
     DoublePendulum,
     QuadrupoleBosonHamiltonian,
+    HenonHeiles,
     rhs,
     jacobian_rhs,
     rhs!,
@@ -17,5 +18,6 @@ include("constants.jl")
 include("simple_pendulum.jl")
 include("double_pendulum.jl")
 include("qbh.jl")
+include("henon_heiles.jl")
 
 end
