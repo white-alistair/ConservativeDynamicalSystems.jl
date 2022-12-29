@@ -16,7 +16,7 @@ function rhs(u::AbstractVector{T}, system::HenonHeiles, t) where {T}
     ]
 end
 
-function jacobian_rhs(u::AbstractVector{T}, system::HenonHeiles{T}, t) where {T}
+function rhs_jacobian(u::AbstractVector{T}, system::HenonHeiles{T}, t) where {T}
     (; λ) = system
     x, y = u
 
@@ -40,14 +40,18 @@ function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::HenonHeiles{T
     return nothing
 end
 
-function hamiltonian(system::HenonHeiles{T}, u::AbstractVector{T}) where {T}
+function hamiltonian(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
-
-    return [0.5 * (p_x^2 + p_y^2) + 0.5 * (x^2 + y^2) + λ * (x^2 * y - y^3 / 3)]
+    return 0.5 * (p_x^2 + p_y^2) + 0.5 * (x^2 + y^2) + λ * (x^2 * y - y^3 / 3)
 end
 
-function jacobian_hamiltonian(system::HenonHeiles{T}, u::AbstractVector{T}) where {T}
+
+function constraints(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
+    return [hamiltonian(u, system, t)]
+end
+
+function constraints_jacobian(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
     

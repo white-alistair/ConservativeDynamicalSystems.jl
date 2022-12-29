@@ -6,10 +6,10 @@ export SimplePendulum,
     HenonHeiles,
     ThreeBodyProblem,
     rhs,
-    jacobian_rhs,
+    rhs_jacobian,
     rhs!,
-    hamiltonian,
-    jacobian_hamiltonian,
+    constraints,
+    constraints_hamiltonian,
     constraints!
 
 using ForwardDiff

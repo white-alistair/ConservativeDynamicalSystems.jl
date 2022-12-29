@@ -69,9 +69,9 @@ end
 end
 
 function constraints!(
-    system::ThreeBodyProblem{T},
     constraints::AbstractVector{T},
     u::AbstractVector{T},
+    system::ThreeBodyProblem{T},
     t::T,
 ) where {T}
     (; m₁, m₂, m₃) = system

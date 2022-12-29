@@ -22,7 +22,7 @@ function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian, t) where 
     ]
 end
 
-function jacobian_rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
+function rhs_jacobian(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
     return ForwardDiff.jacobian(u -> rhs(u, system, nothing), u)
 end
 

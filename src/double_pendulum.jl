@@ -59,11 +59,16 @@ function rhs(u::AbstractVector{T}, system::DoublePendulum, t) where {T}
     return [dθ₁(system, u), dθ₂(system, u), dp₁(system, u), dp₂(system, u)]
 end
 
-function jacobian_rhs(u::AbstractVector{T}, system::DoublePendulum{T}, t) where {T}
+function rhs_jacobian(u::AbstractVector{T}, system::DoublePendulum{T}, t) where {T}
     return ForwardDiff.jacobian(u -> rhs(u, system, t), u)
 end
 
-function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::DoublePendulum{T}, t) where {T}
+function rhs!(
+    du::AbstractVector{T},
+    u::AbstractVector{T},
+    system::DoublePendulum{T},
+    t,
+) where {T}
     du[1] = dθ₁(system, u)
     du[2] = dθ₂(system, u)
     du[3] = dp₁(system, u)
@@ -71,18 +76,25 @@ function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::DoublePendulu
     return nothing
 end
 
-function hamiltonian(system::DoublePendulum{T}, u::AbstractVector{T}) where {T}
+function hamiltonian(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
-    return [
-        (
-            m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
-            2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
-        ) / (2 * m₂ * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)) -
-        (m₁ + m₂) * g(T) * l₁ * cos(θ₁) - m₂ * g(T) * l₂ * cos(θ₂),
-    ]
+    return
+    (
+        m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
+        2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
+    ) / (2 * m₂ * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)) -
+    (m₁ + m₂) * g(T) * l₁ * cos(θ₁) - m₂ * g(T) * l₂ * cos(θ₂)
 end
 
-function jacobian_hamiltonian(system::DoublePendulum{T}, u::AbstractVector{T}) where {T}
+function constraints(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
+    return [hamiltonian(u, system, t)]
+end
+
+function constraints_jacobian(
+    u::AbstractVector{T},
+    system::DoublePendulum{T},
+    t::T,
+) where {T}
     return [-dp₁(system, u) -dp₂(system, u) dθ₁(system, u) dθ₂(system, u)]
 end
