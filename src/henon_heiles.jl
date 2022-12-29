@@ -1,10 +1,10 @@
-struct HenonHeiles{T} <: AbstractDynamicalSystem{T}
+struct HenonHeilesSystem{T} <: AbstractDynamicalSystem{T}
     λ::T
 end
 
-HenonHeiles{T}() where {T} = HenonHeiles{T}(1.0)
+HenonHeilesSystem{T}() where {T} = HenonHeilesSystem{T}(1.0)
 
-function rhs(u::AbstractVector{T}, system::HenonHeiles, t) where {T}
+function rhs(u::AbstractVector{T}, system::HenonHeilesSystem, t) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
 
@@ -16,7 +16,7 @@ function rhs(u::AbstractVector{T}, system::HenonHeiles, t) where {T}
     ]
 end
 
-function rhs_jacobian(u::AbstractVector{T}, system::HenonHeiles{T}, t) where {T}
+function rhs_jacobian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t) where {T}
     (; λ) = system
     x, y = u
 
@@ -28,7 +28,7 @@ function rhs_jacobian(u::AbstractVector{T}, system::HenonHeiles{T}, t) where {T}
     #! format: on
 end
 
-function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::HenonHeiles{T}, t) where {T}
+function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::HenonHeilesSystem{T}, t) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
 
@@ -40,18 +40,18 @@ function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::HenonHeiles{T
     return nothing
 end
 
-function hamiltonian(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
+function hamiltonian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
     return 0.5 * (p_x^2 + p_y^2) + 0.5 * (x^2 + y^2) + λ * (x^2 * y - y^3 / 3)
 end
 
 
-function constraints(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
+function constraints(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
     return [hamiltonian(u, system, t)]
 end
 
-function constraints_jacobian(u::AbstractVector{T}, system::HenonHeiles{T}, t::T) where {T}
+function constraints_jacobian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
     

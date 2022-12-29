@@ -3,7 +3,7 @@ module ConservativeDynamicalSystems
 export SimplePendulum,
     DoublePendulum,
     QuadrupoleBosonHamiltonian,
-    HenonHeiles,
+    HenonHeilesSystem,
     ThreeBodyProblem,
     rhs,
     rhs_jacobian,
