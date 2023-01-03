@@ -1,6 +1,5 @@
-using ConservativeDynamicalSystems
-using Test
+using ConservativeDynamicalSystems, Random, Test
 
 @testset "ConservativeDynamicalSystems.jl" begin
-    # Write your tests here.
+    include("three_body_problem.jl")
 end
