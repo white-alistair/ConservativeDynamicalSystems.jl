@@ -16,18 +16,6 @@ function rhs(u::AbstractVector{T}, system::HenonHeilesSystem, t) where {T}
     ]
 end
 
-function rhs_jacobian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t) where {T}
-    (; λ) = system
-    x, y = u
-
-    #! format: off
-    return [zero(T)        zero(T)        one(T)    zero(T)
-            zero(T)        zero(T)        zero(T)   one(T)
-            -1 - 2λ * y    -2λ * x        zero(T)   zero(T)
-            -2λ * x        -1 + 2λ * y    zero(T)   zero(T)]  # Check this versus ForwardDiff
-    #! format: on
-end
-
 function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::HenonHeilesSystem{T}, t) where {T}
     (; λ) = system
     x, y, p_x, p_y  = u
