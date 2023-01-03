@@ -7,10 +7,10 @@ export SimplePendulum,
     ThreeBodyProblem,
     rhs,
     rhs!,
-    constraints,
-    constraints!,
-    constraints_jacobian,
-    constraints_jacobian!
+    invariants,
+    invariants!,
+    invariants_jacobian,
+    invariants_jacobian!
 
 abstract type AbstractDynamicalSystem{T<:Real} end
 

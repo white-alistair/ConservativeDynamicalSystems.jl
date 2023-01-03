@@ -92,7 +92,7 @@ end
     return -1 * (m₁ * m₂ / r₁₂ + m₁ * m₃ / r₁₃ + m₂ * m₃ / r₂₃)
 end
 
-function constraints(u::AbstractVector{T}, system::ThreeBodyProblem{T}, t) where {T}
+function invariants(u::AbstractVector{T}, system::ThreeBodyProblem{T}, t) where {T}
     (; m₁, m₂, m₃) = system
     r₁, r₂, r₃ = get_positions(u)
     dr₁, dr₂, dr₃ = get_velocities(u)
@@ -108,8 +108,8 @@ function constraints(u::AbstractVector{T}, system::ThreeBodyProblem{T}, t) where
     return [C₁..., C₂..., C₃..., C₄]
 end
 
-function constraints!(
-    constraints::AbstractVector{T},
+function invariants!(
+    invariants::AbstractVector{T},
     u::AbstractVector{T},
     system::ThreeBodyProblem{T},
     t::T,
@@ -126,15 +126,15 @@ function constraints!(
     C₃ = m₁ * r₁ × dr₁ + m₂ * r₂ × dr₂ + m₃ * r₃ × dr₃
     C₄ = potential_energy(system, r₁, r₂, r₃) + kinetic_energy(system, dr₁, dr₂, dr₃)
 
-    constraints[1:3] .= C₁
-    constraints[4:6] .= C₂
-    constraints[7:9] .= C₃
-    constraints[10] = C₄
+    invariants[1:3] .= C₁
+    invariants[4:6] .= C₂
+    invariants[7:9] .= C₃
+    invariants[10] = C₄
 
     return nothing
 end
 
-function constraints_jacobian(
+function invariants_jacobian(
     u::AbstractVector{T},
     system::ThreeBodyProblem{T},
     t::T,
@@ -244,7 +244,7 @@ function constraints_jacobian(
     return J
 end
 
-function constraints_jacobian!(
+function invariants_jacobian!(
     J::AbstractMatrix{T},
     u::AbstractVector{T},
     system::ThreeBodyProblem{T},

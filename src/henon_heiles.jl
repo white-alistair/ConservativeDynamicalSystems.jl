@@ -35,11 +35,11 @@ function hamiltonian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) w
 end
 
 
-function constraints(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
+function invariants(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
     return [hamiltonian(u, system, t)]
 end
 
-function constraints!(
+function invariants!(
     constraints::AbstractVector{T},
     u::AbstractVector{T},
     system::HenonHeilesSystem{T},
@@ -49,7 +49,7 @@ function constraints!(
     return nothing
 end
 
-function constraints_jacobian(
+function invariants_jacobian(
     u::AbstractVector{T},
     system::HenonHeilesSystem{T},
     t::T,
@@ -60,7 +60,7 @@ function constraints_jacobian(
     return [x + 2λ * y;; y + λ * (x^2 - y^2);; p_x;; p_y]
 end
 
-function constraints_jacobian!(
+function invariants_jacobian!(
     J::AbstractMatrix{T},
     u::AbstractVector{T},
     system::HenonHeilesSystem{T},
