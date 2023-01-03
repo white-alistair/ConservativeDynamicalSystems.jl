@@ -59,10 +59,6 @@ function rhs(u::AbstractVector{T}, system::DoublePendulum, t) where {T}
     return [dθ₁(system, u), dθ₂(system, u), dp₁(system, u), dp₂(system, u)]
 end
 
-function rhs_jacobian(u::AbstractVector{T}, system::DoublePendulum{T}, t) where {T}
-    return ForwardDiff.jacobian(u -> rhs(u, system, t), u)
-end
-
 function rhs!(
     du::AbstractVector{T},
     u::AbstractVector{T},

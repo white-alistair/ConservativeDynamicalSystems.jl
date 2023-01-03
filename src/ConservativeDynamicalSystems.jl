@@ -6,14 +6,11 @@ export SimplePendulum,
     HenonHeilesSystem,
     ThreeBodyProblem,
     rhs,
-    rhs_jacobian,
     rhs!,
     constraints,
-    constraints_jacobian,
     constraints!,
+    constraints_jacobian,
     constraints_jacobian!
-
-using ForwardDiff
 
 abstract type AbstractDynamicalSystem{T<:Real} end
 
