@@ -42,7 +42,7 @@ end
 function constraints!(
     constraints::AbstractVector{T},
     u::AbstractVector{T},
-    system::DoublePendulum{T},
+    system::HenonHeilesSystem{T},
     t::T,
 ) where {T}
     constraints[1] = hamiltonian(u, system, t)
