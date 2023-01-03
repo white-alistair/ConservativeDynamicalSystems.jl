@@ -9,8 +9,9 @@ export SimplePendulum,
     rhs_jacobian,
     rhs!,
     constraints,
-    constraints_hamiltonian,
-    constraints!
+    constraints_jacobian,
+    constraints!,
+    constraints_jacobian!
 
 using ForwardDiff
 
