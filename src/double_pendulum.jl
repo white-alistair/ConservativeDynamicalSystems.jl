@@ -75,12 +75,13 @@ end
 function hamiltonian(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
-    return
-    (
-        m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
-        2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
-    ) / (2 * m₂ * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)) -
-    (m₁ + m₂) * g(T) * l₁ * cos(θ₁) - m₂ * g(T) * l₂ * cos(θ₂)
+    return (
+        (
+            m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
+            2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
+        ) / (2 * m₂ * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)) -
+        (m₁ + m₂) * g(T) * l₁ * cos(θ₁) - m₂ * g(T) * l₂ * cos(θ₂)
+    )
 end
 
 function constraints(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
