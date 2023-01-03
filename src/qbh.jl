@@ -22,10 +22,6 @@ function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian, t) where 
     ]
 end
 
-function rhs_jacobian(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
-    return ForwardDiff.jacobian(u -> rhs(u, system, nothing), u)
-end
-
 function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
     q₀, q₂, p₀, p₂ = u
     (; A, B, D) = system
