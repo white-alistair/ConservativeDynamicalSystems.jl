@@ -65,7 +65,7 @@ end
 ) where {T}
     (; m₁, m₂, m₃) = system
     r₁₂, r₁₃, r₂₃ = get_separations(r₁, r₂, r₃)
-    return m₁ * m₂ / r₁₂ + m₁ * m₃ / r₁₃ + m₂ * m₃ / r₂₃
+    return -1 * (m₁ * m₂ / r₁₂ + m₁ * m₃ / r₁₃ + m₂ * m₃ / r₂₃)
 end
 
 function constraints(u::AbstractVector{T}, system::ThreeBodyProblem{T}, t) where {T}
