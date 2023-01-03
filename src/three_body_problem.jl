@@ -6,6 +6,30 @@ end
 
 ThreeBodyProblem{T}() where {T} = ThreeBodyProblem{T}(1.0, 1.0, 1.0)
 
+function get_default_initial_conditions(::ThreeBodyProblem{T}) where {T}
+    # Three bodies at rest in the x-y plane forming a triangle with side lengths 3, 4, 5
+    return T[
+        0.0,
+        0.0,
+        0.0,
+        3.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ]
+end
+
 @inline function get_positions(u)
     return @views u[1:3], u[4:6], u[7:9]
 end
