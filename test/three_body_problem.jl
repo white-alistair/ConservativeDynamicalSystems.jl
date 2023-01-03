@@ -21,7 +21,7 @@
     @testset "constraints_jacobian" begin
         Random.seed!(1)
         T = Float64
-        system = ThreeBodyProblem{T}(rand(3)...)
+        system = ThreeBodyProblem{T}(rand(T, 3)...)
         u = rand(T, 18)
         t = rand(T)
         jac = constraints_jacobian(u, system, t)
@@ -31,7 +31,7 @@
     @testset "constraints_jacobian!" begin
         Random.seed!(1)
         T = Float64
-        system = ThreeBodyProblem{T}(rand(3)...)
+        system = ThreeBodyProblem{T}(rand(T, 3)...)
         u = rand(T, 18)
         t = rand(T)
         jac = zeros(T, 10, 18)
