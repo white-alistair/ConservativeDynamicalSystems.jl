@@ -1,6 +1,6 @@
-name = "ConservativeDynamicalSystems"
+name = "ConservativeDynamicalSystems.jl"
 uuid = "c129d815-77ca-4cfa-9dbb-ddee763997c1"
-authors = ["Alistair White <alistair@pik-potsdam.de> and contributors"]
+authors = ["Alistair White <alistair@pik-potsdam.de>"]
 version = "0.1.0"
 
 [compat]
