@@ -88,10 +88,34 @@ function constraints(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) wher
     return [hamiltonian(u, system, t)]
 end
 
+function constraints!(
+    constraints::AbstractVector{T},
+    u::AbstractVector{T},
+    system::DoublePendulum{T},
+    t::T,
+) where {T}
+    constraints[1] = hamiltonian(u, system, t)
+    return nothing
+end
+
 function constraints_jacobian(
     u::AbstractVector{T},
     system::DoublePendulum{T},
     t::T,
 ) where {T}
     return [-dp₁(system, u) -dp₂(system, u) dθ₁(system, u) dθ₂(system, u)]
+end
+
+function constraints_jacobian!(
+    J::AbstractMatrix{T},
+    u::AbstractVector{T},
+    system::DoublePendulum{T},
+    t::T,
+) where {T}
+    J[1, 1] = -dp₁(system, u)
+    J[1, 2] = -dp₂(system, u)
+    J[1, 3] = dθ₁(system, u)
+    J[1, 4] = dθ₂(system, u)
+
+    return nothing
 end
