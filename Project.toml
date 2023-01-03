@@ -1,4 +1,4 @@
-name = "ConservativeDynamicalSystems.jl"
+name = "ConservativeDynamicalSystems"
 uuid = "c129d815-77ca-4cfa-9dbb-ddee763997c1"
 authors = ["Alistair White <alistair@pik-potsdam.de>"]
 version = "0.1.0"
