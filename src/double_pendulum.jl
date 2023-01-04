@@ -11,13 +11,13 @@ function get_default_initial_conditions(::DoublePendulum{T}) where {T}
     return T[π/2, π/2, 0.0, 0.0]
 end
 
-function get_h₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function get_h₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return p₁ * p₂ * sin(θ₁ - θ₂) / (l₁ * l₂ * (m₁ + m₂ * sin(θ₁ - θ₂)^2))
 end
 
-function get_h₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function get_h₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return (
@@ -26,20 +26,20 @@ function get_h₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     ) / (2 * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)^2)
 end
 
-function dθ₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function dθ₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return (l₂ * p₁ - l₁ * p₂ * cos(θ₁ - θ₂)) / (l₁^2 * l₂ * (m₁ + m₂ * sin(θ₁ - θ₂)^2))
 end
 
-function dθ₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function dθ₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return (-m₂ * l₂ * p₁ * cos(θ₁ - θ₂) + (m₁ + m₂) * l₁ * p₂) /
            (m₂ * l₁ * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2))
 end
 
-function dp₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function dp₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁) = system
     θ₁, θ₂ = u[1:2]
     h₁ = get_h₁(system, u)
@@ -47,7 +47,7 @@ function dp₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     return -(m₁ + m₂) * g(T) * l₁ * sin(θ₁) - h₁ + h₂ * sin(2 * (θ₁ - θ₂))
 end
 
-function dp₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function dp₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₂, l₂) = system
     θ₁, θ₂, = u[1:2]
     h₁ = get_h₁(system, u)
@@ -116,6 +116,5 @@ function invariants_jacobian!(
     J[1, 2] = -dp₂(system, u)
     J[1, 3] = dθ₁(system, u)
     J[1, 4] = dθ₂(system, u)
-
     return nothing
 end
