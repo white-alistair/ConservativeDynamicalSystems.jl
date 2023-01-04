@@ -13,23 +13,60 @@ end
 function rhs(u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian, t) where {T}
     q₀, q₂, p₀, p₂ = u
     (; A, B, D) = system
-    
+
     return [
         A * p₀,
         A * p₂,
         -1 * A * q₀ - 3 * B / sqrt(2) * (q₂^2 - q₀^2) - D * q₀ * (q₀^2 + q₂^2),
-        -1 * q₂ * (A + 3 * B / sqrt(2) * q₀ + D * (q₀^2 + q₂^2)),
+        -1 * q₂ * (A + 3 * sqrt(2) * B * q₀ + D * (q₀^2 + q₂^2)),
     ]
 end
 
-function rhs!(du::AbstractVector{T}, u::AbstractVector{T}, system::QuadrupoleBosonHamiltonian{T}, t) where {T}
+function rhs!(
+    du::AbstractVector{T},
+    u::AbstractVector{T},
+    system::QuadrupoleBosonHamiltonian{T},
+    t,
+) where {T}
     q₀, q₂, p₀, p₂ = u
     (; A, B, D) = system
 
     du[1] = A * p₀
     du[2] = A * p₂
-    du[3] = -1 * A * q₀ - 3 * B / sqrt(2) * (q₂^2 - q₀^2) - D * q₀ * (q₀^2 + q₂^2)
-    du[4] = -1 * q₂ * (A + 3 * B / sqrt(2) * q₀ + D * (q₀^2 + q₂^2))
+    du[3] = -A * q₀ - 3 * B / sqrt(2) * (q₂^2 - q₀^2) - D * q₀ * (q₀^2 + q₂^2)
+    du[4] = -q₂ * (A + 3 * sqrt(2) * B * q₀ + D * (q₀^2 + q₂^2))
 
+    return nothing
+end
+
+function hamiltonian(
+    u::AbstractVector{T},
+    system::QuadrupoleBosonHamiltonian{T},
+    t::T,
+) where {T}
+    q₀, q₂, p₀, p₂ = u
+    (; A, B, D) = system
+    return (
+        A / 2 * (q₀^2 + q₂^2 + p₀^2 + p₂^2) +
+        B / sqrt(2) * q₀ * (3q₂^2 - q₀^2) +
+        D / 4 * (q₀^2 + q₂^2)^2
+    )
+end
+
+function invariants(
+    u::AbstractVector{T},
+    system::QuadrupoleBosonHamiltonian{T},
+    t::T,
+) where {T}
+    return [hamiltonian(u, system, t)]
+end
+
+function invariants!(
+    invariants::AbstractVector{T},
+    u::AbstractVector{T},
+    system::QuadrupoleBosonHamiltonian{T},
+    t::T,
+) where {T}
+    invariants[1] = hamiltonian(u, system, t)
     return nothing
 end

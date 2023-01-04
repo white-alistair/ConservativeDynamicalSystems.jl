@@ -4,5 +4,6 @@ using ConservativeDynamicalSystems, Random, OrdinaryDiffEq, Test
     include("vector_products.jl")
     include("double_pendulum.jl")
     include("henon_heiles.jl")
+    include("qbh.jl")
     include("three_body_problem.jl")
 end
