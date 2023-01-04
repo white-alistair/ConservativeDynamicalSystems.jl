@@ -1,6 +1,7 @@
 module ConservativeDynamicalSystems
 
-export SimplePendulum,
+export AbstractDynamicalSystem, 
+    SimplePendulum,
     DoublePendulum,
     QuadrupoleBosonHamiltonian,
     HenonHeilesSystem,
