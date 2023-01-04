@@ -3,9 +3,5 @@ uuid = "c129d815-77ca-4cfa-9dbb-ddee763997c1"
 authors = ["Alistair White <alistair@pik-potsdam.de>"]
 version = "0.1.0"
 
-[deps]
-CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
-OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
-
 [compat]
 julia = "1.8"
