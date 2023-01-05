@@ -11,7 +11,8 @@ export AbstractDynamicalSystem,
     invariants,
     invariants!,
     invariants_jacobian,
-    invariants_jacobian!
+    invariants_jacobian!,
+    get_default_initial_conditions
 
 abstract type AbstractDynamicalSystem{T<:Real} end
 
