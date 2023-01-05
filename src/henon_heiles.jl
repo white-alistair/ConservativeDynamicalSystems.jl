@@ -28,32 +28,31 @@ function rhs!(
     return nothing
 end
 
-function hamiltonian(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
+function hamiltonian(u, system::HenonHeilesSystem, t)
     (; λ) = system
     x, y, p_x, p_y = u
     return 0.5 * (p_x^2 + p_y^2) + 0.5 * (x^2 + y^2) + λ * (x^2 * y - y^3 / 3)
 end
 
-
-function invariants(u::AbstractVector{T}, system::HenonHeilesSystem{T}, t::T) where {T}
+function invariants(u, system::HenonHeilesSystem, t)
     return [hamiltonian(u, system, t)]
 end
 
 function invariants!(
-    constraints::AbstractVector{T},
-    u::AbstractVector{T},
-    system::HenonHeilesSystem{T},
-    t::T,
-) where {T}
+    constraints,
+    u,
+    system::HenonHeilesSystem,
+    t,
+)
     constraints[1] = hamiltonian(u, system, t)
     return nothing
 end
 
 function invariants_jacobian(
-    u::AbstractVector{T},
-    system::HenonHeilesSystem{T},
-    t::T,
-) where {T}
+    u,
+    system::HenonHeilesSystem,
+    t,
+)
     (; λ) = system
     x, y, p_x, p_y = u
 
@@ -61,11 +60,11 @@ function invariants_jacobian(
 end
 
 function invariants_jacobian!(
-    J::AbstractMatrix{T},
-    u::AbstractVector{T},
-    system::HenonHeilesSystem{T},
-    t::T,
-) where {T}
+    J,
+    u,
+    system::HenonHeilesSystem,
+    t,
+)
     (; λ) = system
     x, y, p_x, p_y = u
 

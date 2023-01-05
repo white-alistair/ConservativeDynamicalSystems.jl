@@ -109,11 +109,11 @@ function invariants(u::AbstractVector{T}, system::ThreeBodyProblem{T}, t) where 
 end
 
 function invariants!(
-    invariants::AbstractVector{T},
-    u::AbstractVector{T},
-    system::ThreeBodyProblem{T},
-    t::T,
-) where {T}
+    invariants,
+    u,
+    system::ThreeBodyProblem,
+    t,
+)
     (; m₁, m₂, m₃) = system
     r₁, r₂, r₃ = get_positions(u)
     dr₁, dr₂, dr₃ = get_velocities(u)
@@ -135,9 +135,9 @@ function invariants!(
 end
 
 function invariants_jacobian(
-    u::AbstractVector{T},
+    u,
     system::ThreeBodyProblem{T},
-    t::T,
+    t,
 ) where {T}
     (; m₁, m₂, m₃) = system
     r₁₂, r₁₃, r₂₃ = get_separations(u)
@@ -245,11 +245,11 @@ function invariants_jacobian(
 end
 
 function invariants_jacobian!(
-    J::AbstractMatrix{T},
-    u::AbstractVector{T},
-    system::ThreeBodyProblem{T},
-    t::T,
-) where {T}
+    J,
+    u,
+    system::ThreeBodyProblem,
+    t,
+)
     (; m₁, m₂, m₃) = system
     r₁₂, r₁₃, r₂₃ = get_separations(u)
     x₁, y₁, z₁, x₂, y₂, z₂, x₃, y₃, z₃, dx₁, dy₁, dz₁, dx₂, dy₂, dz₂, dx₃, dy₃, dz₃ = u

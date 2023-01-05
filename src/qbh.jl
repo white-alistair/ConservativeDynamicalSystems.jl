@@ -40,10 +40,10 @@ function rhs!(
 end
 
 function hamiltonian(
-    u::AbstractVector{T},
-    system::QuadrupoleBosonHamiltonian{T},
-    t::T,
-) where {T}
+    u,
+    system::QuadrupoleBosonHamiltonian,
+    t,
+)
     q₀, q₂, p₀, p₂ = u
     (; A, B, D) = system
     return (
@@ -54,19 +54,19 @@ function hamiltonian(
 end
 
 function invariants(
-    u::AbstractVector{T},
-    system::QuadrupoleBosonHamiltonian{T},
-    t::T,
-) where {T}
+    u,
+    system::QuadrupoleBosonHamiltonian,
+    t,
+)
     return [hamiltonian(u, system, t)]
 end
 
 function invariants!(
-    invariants::AbstractVector{T},
-    u::AbstractVector{T},
-    system::QuadrupoleBosonHamiltonian{T},
-    t::T,
-) where {T}
+    invariants,
+    u,
+    system::QuadrupoleBosonHamiltonian,
+    t,
+)
     invariants[1] = hamiltonian(u, system, t)
     return nothing
 end

@@ -72,7 +72,7 @@ function rhs!(
     return nothing
 end
 
-function hamiltonian(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
+function hamiltonian(u, system::DoublePendulum{T}, t) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return (
@@ -84,34 +84,20 @@ function hamiltonian(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) wher
     )
 end
 
-function invariants(u::AbstractVector{T}, system::DoublePendulum{T}, t::T) where {T}
+function invariants(u, system::DoublePendulum, t)
     return [hamiltonian(u, system, t)]
 end
 
-function invariants!(
-    invariants::AbstractVector{T},
-    u::AbstractVector{T},
-    system::DoublePendulum{T},
-    t::T,
-) where {T}
+function invariants!(invariants, u, system::DoublePendulum, t)
     invariants[1] = hamiltonian(u, system, t)
     return nothing
 end
 
-function invariants_jacobian(
-    u::AbstractVector{T},
-    system::DoublePendulum{T},
-    t::T,
-) where {T}
+function invariants_jacobian(u, system::DoublePendulum, t)
     return [-dp₁(system, u) -dp₂(system, u) dθ₁(system, u) dθ₂(system, u)]
 end
 
-function invariants_jacobian!(
-    J::AbstractMatrix{T},
-    u::AbstractVector{T},
-    system::DoublePendulum{T},
-    t::T,
-) where {T}
+function invariants_jacobian!(J, u, system::DoublePendulum, t)
     J[1, 1] = -dp₁(system, u)
     J[1, 2] = -dp₂(system, u)
     J[1, 3] = dθ₁(system, u)
