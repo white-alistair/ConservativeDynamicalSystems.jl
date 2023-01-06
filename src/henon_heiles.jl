@@ -5,7 +5,7 @@ end
 HenonHeilesSystem{T}() where {T} = HenonHeilesSystem{T}(1.0)
 
 function get_default_initial_conditions(::HenonHeilesSystem{T}) where {T}
-    return T[0.325, 0.325, 0.0, 0.0]  # H0 ≈ 0.128 > 1/8
+    return T[0.365, 0.365, 0.0, 0.0]  # H0 ≈ 0.1656 < 1/6, Λₘₐₓ ≈ 0.117
 end
 
 function rhs(u::AbstractVector{T}, system::HenonHeilesSystem, t) where {T}
