@@ -32,10 +32,10 @@ function rhs!(
     return nothing
 end
 
-function hamiltonian(u, system::HenonHeilesSystem, t)
+function hamiltonian(u, system::HenonHeilesSystem{T}, t) where {T}
     (; λ) = system
     x, y, p_x, p_y = u
-    return 0.5 * (p_x^2 + p_y^2) + 0.5 * (x^2 + y^2) + λ * (x^2 * y - y^3 / 3)
+    return T(0.5) * (p_x^2 + p_y^2 + x^2 + y^2) + λ * (x^2 * y - y^3 / 3)
 end
 
 function invariants(u, system::HenonHeilesSystem, t)
