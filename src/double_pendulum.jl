@@ -62,7 +62,7 @@ end
 function rhs!(
     du::AbstractVector{T},
     u::AbstractVector{T},
-    system::DoublePendulum{T},
+    system::DoublePendulum,
     t,
 ) where {T}
     du[1] = dθ₁(system, u)
