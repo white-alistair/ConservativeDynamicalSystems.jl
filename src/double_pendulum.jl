@@ -59,6 +59,10 @@ function rhs(u::AbstractVector{T}, system::DoublePendulum, t) where {T}
     return [dθ₁(system, u), dθ₂(system, u), dp₁(system, u), dp₂(system, u)]
 end
 
+function (system::DoublePendulum)(u, p, t)
+    return rhs(u, system, t)
+end
+
 function rhs!(
     du::AbstractVector{T},
     u::AbstractVector{T},
@@ -69,6 +73,16 @@ function rhs!(
     du[2] = dθ₂(system, u)
     du[3] = dp₁(system, u)
     du[4] = dp₂(system, u)
+    return nothing
+end
+
+function (system::DoublePendulum)(
+    du,
+    u,
+    p,
+    t,
+)
+    rhs!(du, u, system, t)
     return nothing
 end
 
