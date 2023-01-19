@@ -11,16 +11,16 @@ function get_default_initial_conditions(::DoublePendulum{T}) where {T}
     return T[π/2, π/2, 0.0, 0.0]
 end
 
-@inline function get_h₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function get_C₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
     return p₁ * p₂ * sin(θ₁ - θ₂) / (l₁ * l₂ * (m₁ + m₂ * sin(θ₁ - θ₂)^2))
 end
 
-@inline function get_h₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
+@inline function get_C₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, p₁, p₂ = u
-    return (
+    return sin(2 * (θ₁ - θ₂)) * (
         m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
         2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
     ) / (2 * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)^2)
@@ -41,18 +41,18 @@ end
 
 @inline function dp₁(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₁, m₂, l₁) = system
-    θ₁, θ₂ = u[1:2]
-    h₁ = get_h₁(system, u)
-    h₂ = get_h₂(system, u)
-    return -(m₁ + m₂) * g(T) * l₁ * sin(θ₁) - h₁ + h₂ * sin(2 * (θ₁ - θ₂))
+    θ₁ = u[1]
+    C₁ = get_C₁(system, u)
+    C₂ = get_C₂(system, u)
+    return -(m₁ + m₂) * g(T) * l₁ * sin(θ₁) - C₁ + C₂
 end
 
 @inline function dp₂(system::DoublePendulum, u::AbstractVector{T}) where {T}
     (; m₂, l₂) = system
-    θ₁, θ₂, = u[1:2]
-    h₁ = get_h₁(system, u)
-    h₂ = get_h₂(system, u)
-    return -m₂ * g(T) * l₂ * sin(θ₂) + h₁ - h₂ * sin(2 * (θ₁ - θ₂))
+    θ₂ = u[2]
+    C₁ = get_C₁(system, u)
+    C₂ = get_C₂(system, u)
+    return -m₂ * g(T) * l₂ * sin(θ₂) + C₁ - C₂
 end
 
 function rhs(u::AbstractVector{T}, system::DoublePendulum, t) where {T}
@@ -94,7 +94,7 @@ function hamiltonian(u, system::DoublePendulum{T}, t) where {T}
             m₂ * l₂^2 * p₁^2 + (m₁ + m₂) * l₁^2 * p₂^2 -
             2 * m₂ * l₁ * l₂ * p₁ * p₂ * cos(θ₁ - θ₂)
         ) / (2 * m₂ * l₁^2 * l₂^2 * (m₁ + m₂ * sin(θ₁ - θ₂)^2)) -
-        (m₁ + m₂) * g(T) * l₁ * cos(θ₁) - m₂ * g(T) * l₂ * cos(θ₂)
+        (m₁ + m₂) * l₁ * g(T) * cos(θ₁) - m₂ * l₂ * g(T) * cos(θ₂)
     )
 end
 
