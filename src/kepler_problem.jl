@@ -21,9 +21,9 @@ function (system::KeplerProblem)(du, u, p, t)
     return nothing
 end
 
-function hamiltonian(u, ::KeplerProblem, t)
+function hamiltonian(u, ::KeplerProblem{T}, t) where {T}
     q₁, q₂, p₁, p₂ = u
-    return 0.5 * (p₁^2 + p₂^2) - 1 / sqrt(q₁^2 + q₂^2)
+    return T(0.5) * (p₁^2 + p₂^2) - 1 / sqrt(q₁^2 + q₂^2)
 end
 
 function angular_momentum(u, ::KeplerProblem, t)
@@ -31,15 +31,15 @@ function angular_momentum(u, ::KeplerProblem, t)
     return q₁ * p₂ - q₂ * p₁
 end
 
-function invariants(u, system::KeplerProblem, t)
-    return [hamiltonian(u, system, t), angular_momentum(u, system, t)]
+function invariants(u, system::KeplerProblem{T}, t) where {T}
+    return T[hamiltonian(u, system, t), angular_momentum(u, system, t)]
 end
 
-function invariants_jacobian(u, ::KeplerProblem, t)
+function invariants_jacobian(u, ::KeplerProblem{T}, t) where {T}
     q₁, q₂, p₁, p₂ = u
 
     #! format: off
-    return [
+    return T[
         q₁*(q₁^2+q₂^2)^(-3/2)       q₂*(q₁^2+q₂^2)^(-3/2)       p₁      p₂
         p₂                          -p₁                         -q₂     q₁
     ]
