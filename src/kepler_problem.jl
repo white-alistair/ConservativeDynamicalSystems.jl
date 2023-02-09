@@ -21,12 +21,12 @@ function (system::KeplerProblem)(du, u, p, t)
     return nothing
 end
 
-function hamiltonian(u, ::KeplerProblem{T}, t)::T where {T}
+function hamiltonian(u, ::KeplerProblem{T}, t) where {T}
     q₁, q₂, p₁, p₂ = u
     return T(0.5) * (p₁^2 + p₂^2) - 1 / sqrt(q₁^2 + q₂^2)
 end
 
-function angular_momentum(u, ::KeplerProblem{T}, t)::T where {T}
+function angular_momentum(u, ::KeplerProblem, t)
     q₁, q₂, p₁, p₂ = u
     return q₁ * p₂ - q₂ * p₁
 end
