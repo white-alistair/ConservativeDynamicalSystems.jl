@@ -5,6 +5,7 @@ export AbstractDynamicalSystem,
     DoublePendulum,
     QuadrupoleBosonHamiltonian,
     HenonHeilesSystem,
+    KeplerProblem,
     ThreeBodyProblem,
     rhs,
     rhs!,
@@ -22,6 +23,7 @@ include("simple_pendulum.jl")
 include("double_pendulum.jl")
 include("qbh.jl")
 include("henon_heiles.jl")
+include("kepler_problem.jl")
 include("three_body_problem.jl")
 
 end
