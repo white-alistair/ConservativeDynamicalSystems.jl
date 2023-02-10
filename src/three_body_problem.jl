@@ -78,7 +78,7 @@ end
     dr₃::AbstractVector{T},
 ) where {T}
     (; m₁, m₂, m₃) = system
-    return 0.5 * (m₁ * dr₁ ⋅ dr₁ + m₂ * dr₂ ⋅ dr₂ + m₃ * dr₃ ⋅ dr₃)
+    return T(0.5) * (m₁ * dr₁ ⋅ dr₁ + m₂ * dr₂ ⋅ dr₂ + m₃ * dr₃ ⋅ dr₃)
 end
 
 @inline function potential_energy(
