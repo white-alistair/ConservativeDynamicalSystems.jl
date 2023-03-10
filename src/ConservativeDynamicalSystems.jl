@@ -3,6 +3,7 @@ module ConservativeDynamicalSystems
 export AbstractDynamicalSystem, 
     SimplePendulum,
     DoublePendulum,
+    DoublePendulumHamiltonian,
     QuadrupoleBosonHamiltonian,
     HenonHeilesSystem,
     KeplerProblem,

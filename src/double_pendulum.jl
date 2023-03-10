@@ -88,18 +88,18 @@ function invariants!(invariants, u, system::DoublePendulum, t)
     return nothing
 end
 
-function invariants_jacobian(u, system::DoublePendulum, t)
+function invariants_jacobian(u, system::DoublePendulum{T}, t) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, ω₁, ω₂ = u
     return [
         -m₂ * l₁ * l₂ * ω₁ * ω₂ * sin(θ₁ - θ₂) + (m₁ + m₂) * g(T) * l₁ * sin(θ₁);;
         m₂ * l₁ * l₂ * ω₁ * ω₂ * sin(θ₁ - θ₂) + m₂ * g(T) * l₂ * sin(θ₂);;
-        m₁ * l₁^2 * ω₁ + m₂ * l₂^2 * ω₁ + m₂ * l₁ * l₂ * ω₂ * cos(θ₁ - θ₂);;
+        m₁ * l₁^2 * ω₁ + m₂ * l₁^2 * ω₁ + m₂ * l₁ * l₂ * ω₂ * cos(θ₁ - θ₂);;
         m₂ * l₂^2 * ω₂ + m₂ * l₁ * l₂ * ω₁ * cos(θ₁ - θ₂)
     ]
 end
 
-function invariants_jacobian!(J, u, system::DoublePendulum, t)
+function invariants_jacobian!(J, u, system::DoublePendulum{T}, t) where {T}
     (; m₁, m₂, l₁, l₂) = system
     θ₁, θ₂, ω₁, ω₂ = u
     J[1, 1] = -m₂ * l₁ * l₂ * ω₁ * ω₂ * sin(θ₁ - θ₂) + (m₁ + m₂) * g(T) * l₁ * sin(θ₁)
@@ -108,7 +108,6 @@ function invariants_jacobian!(J, u, system::DoublePendulum, t)
     J[1, 4] = m₂ * l₂^2 * ω₂ + m₂ * l₁ * l₂ * ω₁ * cos(θ₁ - θ₂)
     return nothing
 end
-
 
 struct DoublePendulumHamiltonian{T} <: AbstractDoublePendulum{T}
     m₁::T
