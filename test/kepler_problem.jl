@@ -19,20 +19,15 @@
 end
 
 @testitem "Invariants Jacobian" begin
-    using Random
+    using ForwardDiff, Random
 
     Random.seed!(1)
     T = Float64
     system = KeplerProblem{T}()
     u = rand(T, 4)
 
-    # To test the constraints Jacobian functions, we use a Jacobian matrix pre-computed 
-    # from the constraints function using ForwardDiff.jl
-    jac_forward_diff = [
-        1.61431 7.68451 0.698827 0.628265
-        0.628265 -0.698827 -0.349241 0.0733664
-    ]
-
+    jac_forward_diff = ForwardDiff.jacobian(u -> invariants(u, system, nothing), u)
     jac = invariants_jacobian(u, system, nothing)
+    
     @test jac ≈ jac_forward_diff atol = 1e-5
 end

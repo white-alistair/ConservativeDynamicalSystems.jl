@@ -1,3 +1,3 @@
-using TestItemRunner, OrdinaryDiffEq, Random
+using TestItemRunner
 
 @run_package_tests
