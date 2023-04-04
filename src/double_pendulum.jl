@@ -220,3 +220,23 @@ function invariants_jacobian!(J, u, system::DoublePendulumHamiltonian, t)
     J[1, 4] = dθ₂(system, u)
     return nothing
 end
+
+function cartesian(system::DoublePendulum, u::AbstractVector)
+    (; l₁, l₂) = system
+    θ₁, θ₂, ω₁, ω₂ = u
+
+    x₁ = l₁ * sin(θ₁)
+    y₁ = -l₁ * cos(θ₁)
+    x₂ = x₁ + l₂ * sin(θ₂)
+    y₂ = y₁ - l₂ * cos(θ₂)
+    dx₁ = l₁ * cos(θ₁) * ω₁
+    dy₁ = l₁ * sin(θ₁) * ω₁
+    dx₂ = dx₁ + l₂ * cos(θ₂) * ω₂
+    dy₂ = dy₁ + l₂ * sin(θ₂) * ω₂
+
+    return [x₁, y₁, x₂, y₂, dx₁, dy₁, dx₂, dy₂]
+end
+
+function cartesian(system::DoublePendulum, trajectory::AbstractMatrix)
+    return mapslices(u -> cartesian(system, u), trajectory, dims = 1)
+end
