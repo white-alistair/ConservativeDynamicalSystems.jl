@@ -51,3 +51,34 @@ end
 
     @test jac_analytic ≈ jac_forward_diff atol = 1e-5
 end
+
+@testitem "Cartesian: vector" begin
+    system = SimplePendulum{Float64}(rand(2)...)
+    (; l) = system
+    traj_angular = [π/2 π/4
+                    1.0 2.0]
+    traj_cartesian = ConservativeDynamicalSystems.cartesian(system, traj_angular)
+    @test traj_cartesian ≈ [l     l/sqrt(2)
+                            0.0   -l/sqrt(2)
+                            0.0   2l/sqrt(2)
+                            l     2l/sqrt(2)]
+end
+
+@testitem "Cartesian" begin
+    system = SimplePendulum{Float64}(rand(2)...)
+    (; l) = system
+
+    # Single observation
+    u = [π/2, 1.0]
+    u_cartesian = ConservativeDynamicalSystems.cartesian(system, u)
+    @test u_cartesian ≈ [l, 0.0, 0.0, l]
+
+    # Whole trajectory
+    trajectory = [π/2 π/4
+                  1.0 2.0]
+    traj_cartesian = ConservativeDynamicalSystems.cartesian(system, trajectory)
+    @test traj_cartesian ≈ [l     l/sqrt(2)
+                            0.0   -l/sqrt(2)
+                            0.0   2l/sqrt(2)
+                            l     2l/sqrt(2)]
+end

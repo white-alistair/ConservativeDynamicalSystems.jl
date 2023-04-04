@@ -58,3 +58,17 @@ function invariants_jacobian(u, system::SimplePendulum, t)
     (; m, l) = system 
     return [m * l * sin(θ);; m * l^2 * ω]
 end
+
+function cartesian(system::SimplePendulum, u::AbstractVector)
+    (; l) = system
+    θ, ω = u
+    x = l * sin(θ)
+    y = -l * cos(θ)
+    dx = l * cos(θ) * ω
+    dy = l * sin(θ) * ω
+    return [x, y, dx, dy]
+end
+
+function cartesian(system::SimplePendulum, trajectory::AbstractMatrix)
+    return mapslices(u -> cartesian(system, u), trajectory, dims = 1)
+end
