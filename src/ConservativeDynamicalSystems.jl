@@ -8,6 +8,7 @@ export AbstractDynamicalSystem,
     HenonHeilesSystem,
     KeplerProblem,
     ThreeBodyProblem,
+    Robertson,
     rhs,
     rhs!,
     # invariants,
@@ -26,5 +27,6 @@ include("qbh.jl")
 include("henon_heiles.jl")
 include("kepler_problem.jl")
 include("three_body_problem.jl")
+include("robertson.jl")
 
 end
