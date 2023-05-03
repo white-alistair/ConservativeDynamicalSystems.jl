@@ -6,7 +6,7 @@ end
 SimplePendulum{T}() where {T} = SimplePendulum{T}(1.0, 1.0)
 
 function get_default_initial_conditions(::SimplePendulum{T}) where {T}
-    return T[π/4, 0.0]
+    return T[π/2, 0.0]
 end
 
 function rhs(u::AbstractVector{T}, system::SimplePendulum, t) where {T}
